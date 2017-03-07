@@ -7,9 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.a6sigma.great4ip.LoginActivity"
-    android:background="@color/background"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:background="@color/background">
 
     <RelativeLayout
         android:layout_width="fill_parent"

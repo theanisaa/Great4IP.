@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "442502968391",
+    "firebase_url": "https://great4ip.firebaseio.com",
+    "project_id": "great4ip",
+    "storage_bucket": "great4ip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442502968391:android:e076d26e4f422b1c",
+        "android_client_info": {
+          "package_name": "com.example.a6sigma.great4ip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442502968391-okbkuj57ggv7hstopjpgfku5b5l1n3lh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkCijHrPelPTmFYtHwazy5UA3VzHczC0E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
