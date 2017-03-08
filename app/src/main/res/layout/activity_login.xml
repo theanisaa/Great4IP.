@@ -32,12 +32,12 @@
     <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Username"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
         android:ems="10"
         android:textColor="@color/biruAneh"
         android:textColorHint="@color/biruAneh"
-        android:id="@+id/editUsername"
+        android:id="@+id/editTextEmailLogin"
         android:layout_marginTop="30dp"/>
 
     <EditText
@@ -48,13 +48,13 @@
         android:ems="10"
         android:textColor="@color/biruAneh"
         android:textColorHint="@color/biruAneh"
-        android:id="@+id/editPassword" />
+        android:id="@+id/editTextPasswordLogin" />
 
     <Button
         android:text="Login"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:id="@+id/Login"
+        android:id="@+id/buttonLogin"
         android:background="@color/oren"
         android:layout_marginTop="8dp"
         android:textStyle="bold"/>
