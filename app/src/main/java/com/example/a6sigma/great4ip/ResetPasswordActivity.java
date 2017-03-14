@@ -61,6 +61,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
                     public void onComplete(@NonNull Task<Void> task) {
                         mProgressDialog.dismiss();
                         if(task.isSuccessful()){
+                            finish();
+                            Toast.makeText(ResetPasswordActivity.this, "Sending successful", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                             startActivity(intent);
                         } else {

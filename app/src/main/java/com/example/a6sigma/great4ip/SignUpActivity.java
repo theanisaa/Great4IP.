@@ -1,11 +1,13 @@
 package com.example.a6sigma.great4ip;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,17 +62,26 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             if(validateUser(mSignUpModel)){
                 registerUser(mSignUpModel);
             } else {
-                mPassword.setText("");
-                mConfirmPassword.setText("");
+                reset();
             }
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
     private boolean validateUser(SignUpModel signUpModel){
         boolean validate = false;
+        CharSequence targetEmail = signUpModel.getEmail();
 
         if(TextUtils.isEmpty(signUpModel.getEmail()) && TextUtils.isEmpty(signUpModel.getPassword())){
             Toast.makeText(this, "Please input your email and password", Toast.LENGTH_SHORT).show();
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(targetEmail).matches()){
+            Toast.makeText(this, "Please type your email correctly", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(signUpModel.getEmail())){
             Toast.makeText(this, "Please input your email", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(signUpModel.getPassword())){
@@ -99,9 +110,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(SignUpActivity.this, "Register Successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(SignUpActivity.this, "Could not register... please try again", Toast.LENGTH_SHORT).show();
+                            reset();
                         }
                     }
                 });
+    }
+
+    public void reset(){
+        mEmail.setText("");
+        mPassword.setText("");
+        mConfirmPassword.setText("");
     }
 
 }

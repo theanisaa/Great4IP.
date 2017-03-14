@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private ProgressDialog mProgressDialog;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +46,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mProgressDialog = new ProgressDialog(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
+        mAuthListener = new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    String uid = user.getUid();
+                    mIntent = new Intent(getApplicationContext(), HomeActivity.class);
+                    mIntent.putExtra("uid", uid);
+                    startActivity(mIntent);
+                }
+            }
+        };
+
         mLogin.setOnClickListener(this);
         mResetPassword.setOnClickListener(this);
         mSignUp.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthListener!=null){
+            finish();
+            mFirebaseAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
@@ -61,8 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if(validateUser(loginModel)){
                 userLogin(loginModel);
             } else {
-                mPassword.setText("");
-                return;
+                reset();
             }
         } else if (v == mResetPassword){
             mIntent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
@@ -72,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private boolean validateUser(LoginModel loginModel){
         boolean validate = false;
+        CharSequence targetEmail = loginModel.getEmail();
 
         if(TextUtils.isEmpty(loginModel.getEmail()) && TextUtils.isEmpty(loginModel.getPassword())){
             Toast.makeText(this, "Please input your email and password", Toast.LENGTH_SHORT).show();
@@ -79,7 +110,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Please input your email", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(loginModel.getPassword())){
             Toast.makeText(this, "Please input your password", Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(targetEmail).matches()){
+            Toast.makeText(this, "Please type your email correctly", Toast.LENGTH_SHORT).show();
+        }else {
             validate = true;
         }
         return validate;
@@ -96,12 +129,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mProgressDialog.dismiss();
                         if(task.isSuccessful()){
                             finish();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(LoginActivity.this, "Please Try Again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Your Email or password is incorrect", Toast.LENGTH_SHORT).show();
+                            reset();
                         }
                     }
                 });
+    }
+
+    public void reset(){
+        mEmail.setText("");
+        mPassword.setText("");
     }
 }

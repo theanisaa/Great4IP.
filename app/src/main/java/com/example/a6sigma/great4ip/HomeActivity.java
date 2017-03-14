@@ -34,10 +34,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == mSignOut){
-            mFirebaseAuth.signOut();
             finish();
+            mFirebaseAuth.signOut();
             mIntent = new Intent(this, LoginActivity.class);
+            startActivity(mIntent);
         }
-        startActivity(mIntent);
     }
 }
