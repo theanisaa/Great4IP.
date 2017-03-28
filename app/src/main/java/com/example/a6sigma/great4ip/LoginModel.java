@@ -5,21 +5,20 @@ package com.example.a6sigma.great4ip;
  */
 
 public class LoginModel {
-    private String mUsername;
+    private String mEmail;
     private String mPassword;
-    private int i;
 
-    public LoginModel(String username, String password) {
-        mUsername = username;
+    public LoginModel(String email, String password) {
+        mEmail = email;
         mPassword = password;
     }
 
-    public String getUsername() {
-        return mUsername;
+    public String getEmail() {
+        return mEmail;
     }
 
-    public void setUsername(String username) {
-        mUsername = username;
+    public void setEmail(String email) {
+        mEmail = email;
     }
 
     public String getPassword() {
