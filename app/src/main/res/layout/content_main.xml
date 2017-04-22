@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.a6sigma.great4ip.HomeActivity"
-    tools:showIn="@layout/app_bar_menu">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
         android:layout_width="90dp"
         android:layout_height="40dp"
         android:background="@color/colorPrimary"
@@ -157,5 +150,4 @@
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignEnd="@+id/linearLayout"
         android:layout_width="30dp" />
-
 </RelativeLayout>

@@ -18,9 +18,9 @@
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="Message" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Log out" />
     </group>
 
-        <item android:title="Log Out"
-            android:id="@+id/nav_logout"/>
 </menu>
-
