@@ -1,10 +1,10 @@
 package com.example.a6sigma.great4ip;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,21 +15,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.a6sigma.great4ip.FragmentMenu.MainActivity;
+import com.example.a6sigma.great4ip.FragmentMenu.MessageActivity;
+import com.example.a6sigma.great4ip.FragmentMenu.ReminderActivity;
+import com.example.a6sigma.great4ip.FragmentMenu.ScheduleActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseAuth mFirebaseAuth;
-
-    private Boolean exit = false;
+    private FirebaseAuth mAuth;
+    private boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,37 +54,35 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        displaySelectedScreen(R.id.nav_home);
     }
 
     @Override
     public void onBackPressed() {
-
-        if (exit) {
-            finish(); // finish activity
-        } else {
-            Toast.makeText(this, "Press Back again to Exit.",Toast.LENGTH_SHORT).show();
-            exit = true;
-            new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                exit = false;
-            }
-        }, 3 * 1000);
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (exit) {
+                finish(); // finish activity
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.",Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
@@ -100,26 +101,48 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void displaySelectedScreen(int id){
+        Fragment fragment = null;
+
+        switch (id){
+            case R.id.nav_home:
+                fragment = new MainActivity();
+                break;
+            case R.id.nav_reminder:
+                fragment = new ReminderActivity();
+                break;
+            case R.id.nav_schedule:
+                fragment = new ScheduleActivity();
+                break;
+            case R.id.nav_message:
+                fragment = new MessageActivity();
+                break;
+        }
+
+        if(fragment != null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_home, fragment);
+            ft.commit();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_schedule) {
-
-        } else if (id == R.id.nav_reminder) {
-
-        } else if (id == R.id.nav_message) {
-
-        } else if (id == R.id.nav_logout) {
-
+        if (id == R.id.nav_logout) {
+            finish();
+            mAuth.signOut();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        displaySelectedScreen(id);
         return true;
     }
 }
