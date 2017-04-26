@@ -118,7 +118,6 @@ public class SignUpFormActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     public void setMajor(int position){
