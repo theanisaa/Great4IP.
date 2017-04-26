@@ -23,12 +23,13 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".FragmentMenu.ScheduleActivity"
             android:label="ScheduleActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
-        <activity android:name=".AddReminderActivity"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".AddReminderActivity" />
+        <activity android:name=".message"></activity>
     </application>
 
 </manifest>
